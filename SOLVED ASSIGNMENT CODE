@@ -1,0 +1,49 @@
+import java.util.*;
+
+class Job implements Comparable<Job> {
+    int start;
+    int end;
+    int profit;
+    Job(int start, int end, int profit) {
+        this.start = start;
+        this.end = end;
+        this.profit = profit;
+    }
+
+    public int compareTo(Job j) {
+        return this.end < j.end ? -1 : 1;
+    }
+}
+
+class Main1 {
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the number of Jobs");
+        int n = sc.nextInt();
+        Job[] job = new Job[n];
+        System.out.println("Enter job start time, end time, and earnings");
+        for (int i = 0; i < n; i++) {
+            int start = sc.nextInt();
+            int end = sc.nextInt();
+            int profit = sc.nextInt();
+            job[i] = new Job(start, end, profit);
+        }
+        Arrays.sort(job);
+        int totalProfit = 0;
+        int totalTasks = 0;
+        for (int i = 0; i < n; i++) {
+            int j;
+            for (j = i + 1; j < n; j++) {
+                if (job[j].start >= job[i].end) {
+                    totalProfit += job[i].profit;
+                    totalTasks++;
+                    break;
+                }
+            }
+            i = j - 1;
+        }
+        System.out.println("The number of tasks and earnings available for others");
+        System.out.println("Task: " + (n - totalTasks));
+        System.out.println("Earnings: " + (totalProfit));
+        }
+    }
